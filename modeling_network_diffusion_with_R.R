@@ -7,6 +7,7 @@ library(igraph)
 #################
 "Set transmission rate"
 #################
+# method 1
 transmission_rate = 0.4
 coins = c(rep(1, transmission_rate*1000), rep(0,(1-transmission_rate)*1000))
 n = length(coins)
@@ -18,6 +19,21 @@ toss = function(freq) {
   tossing = sum(tossing)
   return (tossing)
 }
+
+# method 2
+transmission_rate = 0.4
+coins = c(1, 0) # Define the alphabet of nucleotides
+probabilities = c(transmission_rate, 1-transmission_rate ) # Set the values of the probabilities        
+# sample(coins, 1, rep=TRUE, prob=probabilities) # Generate a sequence
+# toss the coins
+toss = function(freq) {
+  tossing = NULL
+  for (i in 1:freq ) tossing[i] = sample(coins, 1, rep=TRUE, prob=probabilities)
+  tossing = sum(tossing)
+  return (tossing)
+}
+
+
 #################
 "Update graphs"
 #################

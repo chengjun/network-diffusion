@@ -13,22 +13,23 @@ network diffusion with R. The algorithm is quite simple:
 
 - Generate a network g: g(V, E).
 - Randomly select one or n nodes as seeds.
-- Each infected node spread to its neighbors with
+- Each infected node influences its neighbors with
 probability p (transmission rate, β).
 
 SI model
 ========================================================
 Actually, this is the most basic epidemic model (SI model)
-with onely two states: Susceptible and Infected!
-However, we expand it to networks. 
+with only two states: Susceptible (S) and Infected (I)!
+However, we will extend it to networks. Given the transmission
+rate $\beta$, SI model can be described as: 
 
-      dS/dt = -βSI
-      dI/(dt)= βSI
-Note that I + S = 1, the equations above can be simplified
-as:
+$\frac{dS}{dt}=-\beta SI$
 
-      dI/dt=βI(1-I) 
-      
+$\frac{dI}{dt}=\beta SI$
+
+Note that I + S = 1, the equation $\frac{dI}{dt}=-\beta SI$ can be simplified
+as: $\frac{dI}{dt}=-\beta I(1-I)$
+
 Solve this equation, we can get a logistic growth function featured
 by its s-shaped curve.
 
@@ -65,7 +66,7 @@ To-do list
 
 Set transmission rate
 ========================================================
-
+Method 1
 
 ```r
 transmission_rate = 0.4
@@ -78,6 +79,25 @@ toss = function(freq) {   # toss the coins
     tossing = sum(tossing)
     return (tossing)
   }
+```
+
+
+Set transmission rate (Updated)
+========================================================
+Method 2
+
+```r
+transmission_rate = 0.4
+coins = c(1, 0) 
+probabilities = c(transmission_rate, 1-transmission_rate )         
+# sample(coins, 1, rep=TRUE, prob=probabilities) # Generate a sequence
+# toss the coins
+toss = function(freq) {
+  tossing = NULL
+  for (i in 1:freq ) tossing[i] = sample(coins, 1, rep=TRUE, prob=probabilities)
+  tossing = sum(tossing)
+  return (tossing)
+}
 ```
 
 
@@ -141,7 +161,7 @@ graph_name = "Scale-free network"
 plot(g)
 ```
 
-![plot of chunk unnamed-chunk-6](modeling_network_with_R-figure/unnamed-chunk-6.png) 
+![plot of chunk unnamed-chunk-7](modeling_network_with_R-figure/unnamed-chunk-7.png) 
 
 
 
@@ -169,7 +189,7 @@ V(g)$color[V(g)%in%diffusers] = "red"
 plot(g, layout =layout.old)
 ```
 
-![plot of chunk unnamed-chunk-8](modeling_network_with_R-figure/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-9](modeling_network_with_R-figure/unnamed-chunk-9.png) 
 
 
 Start the contagion!
@@ -185,7 +205,7 @@ while(length(infected[[total_time]]) < node_number){
 ```
 
 ```
-1 -->2 -->6 -->15 -->22 -->33 -->43 -->48 -->50 -->62 -->67 -->71 -->77 -->80 -->85 -->90 -->91 -->93 -->94 -->95 -->96 -->96 -->96 -->97 -->99 -->100 -->
+2 -->2 -->2 -->2 -->3 -->3 -->4 -->13 -->24 -->35 -->50 -->57 -->65 -->75 -->79 -->86 -->88 -->89 -->92 -->93 -->96 -->98 -->98 -->98 -->98 -->98 -->99 -->100 -->
 ```
 
 
@@ -216,7 +236,7 @@ Save as the animation (Part 1)
 plot_time_series(infected, 16)
 ```
 
-![plot of chunk unnamed-chunk-11](modeling_network_with_R-figure/unnamed-chunk-111.png) ![plot of chunk unnamed-chunk-11](modeling_network_with_R-figure/unnamed-chunk-112.png) 
+![plot of chunk unnamed-chunk-12](modeling_network_with_R-figure/unnamed-chunk-121.png) ![plot of chunk unnamed-chunk-12](modeling_network_with_R-figure/unnamed-chunk-122.png) 
 
 
 Save as the animation (Part 2)

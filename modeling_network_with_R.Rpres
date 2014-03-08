@@ -13,22 +13,23 @@ network diffusion with R. The algorithm is quite simple:
 
 - Generate a network g: g(V, E).
 - Randomly select one or n nodes as seeds.
-- Each infected node spread to its neighbors with
+- Each infected node influences its neighbors with
 probability p (transmission rate, β).
 
 SI model
 ========================================================
 Actually, this is the most basic epidemic model (SI model)
-with onely two states: Susceptible and Infected!
-However, we expand it to networks. 
+with only two states: Susceptible (S) and Infected (I)!
+However, we will extend it to networks. Given the transmission
+rate $\beta$, SI model can be described as: 
 
-      dS/dt = -βSI
-      dI/(dt)= βSI
-Note that I + S = 1, the equations above can be simplified
-as:
+$\frac{dS}{dt}=-\beta SI$
 
-      dI/dt=βI(1-I) 
-      
+$\frac{dI}{dt}=\beta SI$
+
+Note that I + S = 1, the equation $\frac{dI}{dt}=-\beta SI$ can be simplified
+as: $\frac{dI}{dt}=-\beta I(1-I)$
+
 Solve this equation, we can get a logistic growth function featured
 by its s-shaped curve.
 
@@ -65,7 +66,7 @@ To-do list
 
 Set transmission rate
 ========================================================
-
+Method 1
 ```{r}
 transmission_rate = 0.4
 coins = c(rep(1, transmission_rate*1000), rep(0,(1-transmission_rate)*1000))
@@ -77,6 +78,23 @@ toss = function(freq) {   # toss the coins
     tossing = sum(tossing)
     return (tossing)
   }
+```
+
+Set transmission rate (Updated)
+========================================================
+Method 2
+```{r}
+transmission_rate = 0.4
+coins = c(1, 0) 
+probabilities = c(transmission_rate, 1-transmission_rate )         
+# sample(coins, 1, rep=TRUE, prob=probabilities) # Generate a sequence
+# toss the coins
+toss = function(freq) {
+  tossing = NULL
+  for (i in 1:freq ) tossing[i] = sample(coins, 1, rep=TRUE, prob=probabilities)
+  tossing = sum(tossing)
+  return (tossing)
+}
 ```
 
 Update graphs
