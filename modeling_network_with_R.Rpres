@@ -8,7 +8,7 @@ date: 06/03/2014
 
 Introduction
 ========================================================
-In this talk, I present how to simuate the most simple
+In this talk, I present how to simulate the most simple
 network diffusion with R. The algorithm is quite simple:
 
 - Generate a network g: g(V, E).
@@ -27,8 +27,8 @@ $\frac{dS}{dt}=-\beta SI$
 
 $\frac{dI}{dt}=\beta SI$
 
-Note that I + S = 1, the equation $\frac{dI}{dt}=-\beta SI$ can be simplified
-as: $\frac{dI}{dt}=-\beta I(1-I)$
+Note that I + S = 1, the equation $\frac{dI}{dt}=\beta SI$ can be simplified
+as: $\frac{dI}{dt}=\beta I(1-I)$
 
 Solve this equation, we can get a logistic growth function featured
 by its s-shaped curve.
